@@ -1,4 +1,5 @@
 const express = require("express");
+const cors =require('cors')
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const productRoutes = require("./Routes/productsRoute");
@@ -6,7 +7,7 @@ const userRoutes = require("./Routes/userRoute");
 const errMiddleware = require("./middleware/error");
 const orderRoutes = require("./Routes/orderRoute");
 const app = express();
-
+app.use(cors);
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use("/api/v1", productRoutes);

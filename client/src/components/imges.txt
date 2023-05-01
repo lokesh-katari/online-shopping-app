@@ -1,0 +1,11 @@
+const urls = [
+  {
+    url: 'https://couponswala.com/blog/wp-content/uploads/2022/11/roadster-mens-clothing.jpg.webp'
+  },
+  {
+    url: 'https://www.jiomart.com/images/cms/aw_rbslider/slides/1673932966_LG-1.jpg'
+  },
+  {
+    url: 'https://www.dealsshutter.com/blog/wp-content/uploads/2020/10/diwali-offers-on-electronics.png'
+  }
+];

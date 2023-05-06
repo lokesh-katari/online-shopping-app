@@ -4,6 +4,7 @@ const isAuthenticated = require('../middleware/isAuthenticated');
 const roleAuth = require('../middleware/roleAuth');
 
 const router = express.Router();
+console.log("this is pordsuctRoutes");
 
 router.route('/admin/products/new').post(isAuthenticated,roleAuth("admin"), createProduct);
 router.route('/products').get(Getallproducts);

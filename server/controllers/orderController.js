@@ -3,7 +3,7 @@ const Product = require("../Models/ProductModel");
 const ErrorHandler = require("../Utils/ErrorHandler");
 const catchAsyncError = require("../middleware/catchAsyncErrors");
 
-exports.createOrder = catchAsyncError(async (req, res) => {
+const createOrder = catchAsyncError(async (req, res) => {
   const {
     shippingInfo,
     phonenumber,
@@ -29,7 +29,7 @@ exports.createOrder = catchAsyncError(async (req, res) => {
 });
 
 //get all order
-exports.getSingleOrder = catchAsyncError(async (req, res, next) => {
+const getSingleOrder = catchAsyncError(async (req, res, next) => {
   const order = await Order.findById(req.params.id).populate(
     "user",
     "name Email"
@@ -41,7 +41,7 @@ exports.getSingleOrder = catchAsyncError(async (req, res, next) => {
 });
 
 //get single order
-exports.myOrders = catchAsyncError(async (req, res, next) => {
+const myOrders = catchAsyncError(async (req, res, next) => {
   const order = await Order.find({ user: req.user._id });
   if (!order) {
     return next(new ErrorHandler("no orders has been placed", 404));
@@ -50,7 +50,7 @@ exports.myOrders = catchAsyncError(async (req, res, next) => {
 });
 
 // get all Orders -- Admin
-exports.getAllOrders = catchAsyncError(async (req, res, next) => {
+const getAllOrders = catchAsyncError(async (req, res, next) => {
   const orders = await Order.find();
 
   let totalAmount = 0;
@@ -67,7 +67,7 @@ exports.getAllOrders = catchAsyncError(async (req, res, next) => {
 });
 
 // update Order Status -- Admin
-exports.updateOrder = catchAsyncError(async (req, res, next) => {
+const updateOrder = catchAsyncError(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
 
   if (!order) {
@@ -104,7 +104,7 @@ async function updateStock(id, quantity) {
 }
 
 // delete Order -- Admin
-exports.deleteOrder = catchAsyncError(async (req, res, next) => {
+const deleteOrder = catchAsyncError(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
 
   if (!order) {
@@ -117,3 +117,5 @@ exports.deleteOrder = catchAsyncError(async (req, res, next) => {
     success: true,
   });
 });
+
+module.exports= {deleteOrder,getAllOrders,getSingleOrder,updateOrder,myOrders,createOrder}

@@ -4,6 +4,7 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const sendToken = require("../Utils/JWTtoken");
 const sendEmail=require("../Utils/sendEmail");
 const crypto=require('crypto');
+console.log("this is userROuter");
 exports.Userregister=catchAsyncErrors(async(req,res,next)=>{
        const {name,phone,Email,password}=req.body;
 

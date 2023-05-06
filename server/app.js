@@ -7,11 +7,11 @@ const userRoutes = require("./Routes/userRoute");
 const errMiddleware = require("./middleware/error");
 const orderRoutes = require("./Routes/orderRoute");
 const app = express();
-app.use(cors);
+app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use("/api/v1", productRoutes);
-
+console.log("this is app");
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", orderRoutes);
 

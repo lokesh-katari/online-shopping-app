@@ -1,4 +1,6 @@
 // Function to implement search functionality
+//we are not using this method in this application
+
 const search = (query, queryStr) => {
     const keyword = queryStr.keyword
       ? {

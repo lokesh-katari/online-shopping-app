@@ -1,5 +1,6 @@
-
+//we are not using this method in this application
 const filter=(query,queryStr)=>{
+    console.log(queryStr);
     const queryCopy={...queryStr};
     console.log(queryCopy);
     const removeFields  = ["keyword","page","limit"];
@@ -18,3 +19,4 @@ const filter=(query,queryStr)=>{
     }
     
     module.exports=filter;
+

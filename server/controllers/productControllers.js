@@ -1,10 +1,12 @@
 const Product = require("../Models/ProductModel");
 const ErrorHandler = require("../Utils/ErrorHandler");
 const catchAsyncError = require("../middleware/catchAsyncErrors");
-const search = require("../functionalities/search");
-const filter = require("../functionalities/filter");
-const User = require("../Models/UserSchema");
+// const search = require("../functionalities/search");
+// const filter = require("../functionalities/filter");
+
 //CREATE PRODUCT ONLY FOR ADMIN ACCESS
+
+console.log("this  is product router");
 exports.createProduct = catchAsyncError(async (req, res) => {
   req.body.user = req.user._id;
 
@@ -14,22 +16,48 @@ exports.createProduct = catchAsyncError(async (req, res) => {
     product,
   });
 });
-exports.Getallproducts = catchAsyncError(async (req, res) => {
+
+
+
+
+exports.Getallproducts = async (req, res) => {
   let page = Number(req.query.page) || 1;
   let limit = Number(req.query.limit);
 
   let skip = (page - 1) * limit;
 
-  let query = Product.find().skip(skip).limit(limit);
+  
+  const { keyword, category, minPrice, maxPrice } = req.query;
+
+    // Define a filter object based on the query parameters
+    const filter = {};
+    if (keyword) {
+      filter.name = { $regex: keyword, $options: "i" };
+    }
+    if (category) {
+      filter.category = category;
+    }
+    if (minPrice) {
+      filter.price = { $gte: minPrice };
+    }
+    if (maxPrice) {
+      if (!filter.price) {
+        filter.price = {};
+      }
+      filter.price.$lte = maxPrice;
+    }
+
+    // Query the database with the filter object
+    let data = await Product.find(filter).skip(skip).limit(limit);
 
   // Apply search and filter functionalities using the functions
-  query = search(query, req.query);
-  query = filter(query, req.query);
-  const allProducts = await query;
+  // query = search(Product, req.query);
+  // query = filter(query, req.query);
+  // const allProducts = query;
   res
     .status(200)
-    .json({ success: "true", allProducts, hits: allProducts.length });
-});
+    .json({ success: "true", data, hits: data.length });
+};
 exports.GetproductDetails = catchAsyncError(async (req, res, next) => {
   const productDetails = await Product.findById(req.params.id);
 
@@ -67,10 +95,9 @@ exports.deleteProduct = catchAsyncError(async (req, res) => {
   res.status(200).json({ success: true, product });
 });
 
-
 //creating review for the product;
 
-// exports.createProductReview =catchAsyncError(async(req,res,next)=>{
+// const createProductReview =catchAsyncError(async(req,res,next)=>{
 // const{rating,comment,productId}=req.body
 // const review ={
 //   name:req.user.name,
@@ -148,12 +175,12 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
     });
   }
 
-  let avg=0;
-  product.reviews.forEach(rev=> (avg+=rev.rating));
-  product.ratings =avg/product.reviews.length;
+  let avg = 0;
+  product.reviews.forEach((rev) => (avg += rev.rating));
+  product.ratings = avg / product.reviews.length;
 
   // Save the updated product object
-  await product.save({validateBeforeSave:false});
+  await product.save({ validateBeforeSave: false });
 
   // Return response
   res.status(200).json({

@@ -4,14 +4,26 @@ import axios from 'axios';
 const initialState = {
   products: [],
   loading: false,
-  error: null
+  error: null,
+  productDetails:[]
 };
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async () => {
-    const response = await axios.get('http://localhost:5000/api/v1/products');
-    return response.data;
+     const {data} = await axios.get("http://localhost:5000/api/v1/products")
+    ;
+    
+    return data;
+  } 
+);
+export const getProductDetails = createAsyncThunk(
+  'products/getProductDetails',
+  async (id) => {
+     const {data} = await axios.get(`http://localhost:5000/api/v1/products/${id}`)
+    ;
+    
+    return data;
   } 
 );
 
@@ -20,6 +32,7 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     // ... your other reducers ...
+  
   },
   extraReducers: {
     [fetchProducts.pending]: (state, action) => {
@@ -28,9 +41,25 @@ const productSlice = createSlice({
     },
     [fetchProducts.fulfilled]: (state, action) => {
       state.loading = false;
-      state.products = action.payload;
+      state.products=(action.payload.data);
+      console.log(state.products);
+
     },
     [fetchProducts.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    },
+    [getProductDetails.pending]: (state, action) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [getProductDetails.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.productDetails=(action.payload.productDetails);
+      console.log(state.productDetails);
+
+    },
+    [getProductDetails.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.error.message;
     }

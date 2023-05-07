@@ -1,38 +1,44 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 
 const initialState = {
   products: [],
+
   loading: false,
   error: null,
-  productDetails:[]
+  productDetails: [],
 };
-
+// const dispatch= useDispatch();
 export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
-  async () => {
-     const {data} = await axios.get("http://localhost:5000/api/v1/products")
-    ;
-    
-    return data;
-  } 
+  "products/fetchProducts",
+  async (keyword) => {
+    if (keyword) {
+      const { data } = await axios.get(
+        `http://localhost:5000/api/v1/products?keyword=${keyword}`
+      );
+      return data;
+    } else {
+      const { data } = await axios.get(`http://localhost:5000/api/v1/products`);
+      return data;
+    }
+  }
 );
 export const getProductDetails = createAsyncThunk(
-  'products/getProductDetails',
+  "products/getProductDetails",
   async (id) => {
-     const {data} = await axios.get(`http://localhost:5000/api/v1/products/${id}`)
-    ;
-    
+    const { data } = await axios.get(
+      `http://localhost:5000/api/v1/products/${id}`
+    );
     return data;
-  } 
+  }
 );
 
 const productSlice = createSlice({
-  name: 'products',
+  name: "products",
   initialState,
   reducers: {
     // ... your other reducers ...
-  
   },
   extraReducers: {
     [fetchProducts.pending]: (state, action) => {
@@ -41,9 +47,8 @@ const productSlice = createSlice({
     },
     [fetchProducts.fulfilled]: (state, action) => {
       state.loading = false;
-      state.products=(action.payload.data);
+      state.products = action.payload.data;
       console.log(state.products);
-
     },
     [fetchProducts.rejected]: (state, action) => {
       state.loading = false;
@@ -55,16 +60,14 @@ const productSlice = createSlice({
     },
     [getProductDetails.fulfilled]: (state, action) => {
       state.loading = false;
-      state.productDetails=(action.payload.productDetails);
+      state.productDetails = action.payload.productDetails;
       console.log(state.productDetails);
-
     },
     [getProductDetails.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.error.message;
-    }
-  }
+    },
+  },
 });
-
 
 export default productSlice.reducer;

@@ -3,19 +3,27 @@ import ReactStars from "react-rating-stars-component";
 import ContentLoader from "react-content-loader";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link ,useSearchParams,useNavigate } from "react-router-dom";
 
 const { fetchProducts } = require("../features/Products/Product");
 
 const Products = () => {
+  const navigate= useNavigate();
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.products);
   const loading = useSelector((state) => state.products.loading);
   const error = useSelector((state) => state.products.error);
-
+  const [searchParams] = useSearchParams();
+  const keyword =searchParams.get('keyword');
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    if(keyword){
+      dispatch(fetchProducts(keyword));
+      // navigate(`/products`);
+    }
+    else{
+      dispatch(fetchProducts())
+    }
+  }, [dispatch,keyword]);
 
   if (error) {
     return (

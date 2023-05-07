@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Home from './components/Home';
 import ErrorPage from './components/ErrorPage';
 import ProductDetails from './components/ProductDetails';
+import Products from './components/Products';
 function App() {
   return (
  <>
@@ -13,8 +14,11 @@ function App() {
           <Navbar />
           <Routes>
             <Route path='/' element={<Home/>}/>
+            <Route path='/products' element={<Products/>}/>
             <Route path='*' element={<ErrorPage/>}/>
             <Route path='/products/:id' element={<ProductDetails/>}/>
+            {/* <Route path='/products/search/:keyword' element={<Products/>}/> */}
+           
           </Routes>
           <Footer/>
         </BrowserRouter>

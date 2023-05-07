@@ -18,7 +18,7 @@ const Products = () => {
   useEffect(() => {
     if(keyword){
       dispatch(fetchProducts(keyword));
-      // navigate(`/products`);
+      navigate(`/products?keyword=${keyword}`);
     }
     else{
       dispatch(fetchProducts())

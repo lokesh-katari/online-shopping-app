@@ -17,7 +17,7 @@ function App() {
             <Route path='/products' element={<Products/>}/>
             <Route path='*' element={<ErrorPage/>}/>
             <Route path='/products/:id' element={<ProductDetails/>}/>
-            {/* <Route path='/products/search/:keyword' element={<Products/>}/> */}
+            <Route path='/products?keyword=:keyword' element={<Products/>}/>
            
           </Routes>
           <Footer/>

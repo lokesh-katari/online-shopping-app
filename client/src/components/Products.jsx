@@ -124,8 +124,9 @@ const Products = () => {
               <p className="text-xs font-medium tracking-widest text-gray-500 dark:text-gray-300 uppercase">
                 {product.category}
               </p>
+             { console.log()}
               <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">
-                <Link to={`products/${product._id}`} title="">
+                <Link to={window.location.pathname === '/products' ?`${product._id}`:`products/${product._id}`} title="">
                   {product.name}
                 </Link>
               </h3>

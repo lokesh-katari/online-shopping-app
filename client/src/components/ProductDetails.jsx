@@ -13,9 +13,11 @@ const ProductDetails = ({ match }) => {
   const loading = useSelector((state) => state.products.loading);
   const error = useSelector((state) => state.products.error);
   const productDetails = useSelector((state) => state.products.productDetails);
+ 
   // console.log(productDetails);
   useEffect(() => {
     dispatch(getProductDetails(id));
+
   }, [dispatch, id]);
 
   return (

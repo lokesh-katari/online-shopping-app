@@ -1,10 +1,11 @@
 import React from "react";
 import { useState } from "react";
-import { Link,useSearchParams } from "react-router-dom";
+import { Link,useSearchParams,useNavigate } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
 import { setSearchText } from "../features/Form/FormSlice";
 export const Navbar = () => {
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [searchText, setsearchText] = useState('');
   let [searchParams, setSearchParams] = useSearchParams();
@@ -15,13 +16,14 @@ export const Navbar = () => {
     // creating an object of { key: value } pairs from the
     // fields in the form that make up the query.
     
-    setSearchParams({keyword:searchText});
-    
+   dispatch(setSearchText(searchText));
+   setsearchText('')
+   navigate('/products/search')
     
   }
   
     const handleSearch=(e)=>{
-      setsearchText(e.target.value);
+      setsearchText(e.target.value.trim());
     }
   return (
     <div className=" fixed top-0 w-full overflow-hidden z-50 bg-gray-900 opacity-90">
@@ -104,7 +106,7 @@ export const Navbar = () => {
                 value={searchText}
                 onChange={handleSearch}
               />
-              <button type="submit">
+              <button type="submit" disabled={searchText.trim()===''?true:false}>
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

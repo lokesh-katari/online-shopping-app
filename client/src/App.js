@@ -7,6 +7,7 @@ import Home from './components/Home';
 import ErrorPage from './components/ErrorPage';
 import ProductDetails from './components/ProductDetails';
 import Products from './components/Products';
+import FilteredProducts from './components/FilteredProducts';
 function App() {
   return (
  <>
@@ -17,7 +18,9 @@ function App() {
             <Route path='/products' element={<Products/>}/>
             <Route path='*' element={<ErrorPage/>}/>
             <Route path='/products/:id' element={<ProductDetails/>}/>
-            <Route path='/products?keyword=:keyword' element={<Products/>}/>
+            <Route path='/products/search/:id' element={<ProductDetails/>}/>
+            <Route path='/products/search' element={<FilteredProducts/>}/>
+        
            
           </Routes>
           <Footer/>

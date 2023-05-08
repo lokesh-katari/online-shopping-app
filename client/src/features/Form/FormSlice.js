@@ -3,13 +3,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const initialState = {
-    searchText:'',
-    searchResults:[],
+    searchText:null,
+    searchProducts:[],
     error: null,
     filter:{
-        minPrice:[],
-        maxPrice:[]
-    }
+        minPrice:'',
+        maxPrice:''
+    },
+    category:''
   };
   export const searchResults = createAsyncThunk(
     'products/search',
@@ -31,7 +32,12 @@ const formSlice = createSlice({
         },
         setsearchResults:(state,action)=>{
             state.searchResults  =action.payload.data;
-            console.log(state.searchText);
+           
+            console.log(state.searchResults);
+        },
+        setFilter:(state,action)=>{
+            state.filter.minPrice = action.payload.minPrice;
+            state.filter.maxPrice = action.payload.maxPrice;
         }
     },
     extraReducers:{
@@ -41,8 +47,9 @@ const formSlice = createSlice({
           },
           [searchResults.fulfilled]: (state, action) => {
             state.loading = false;
-            state.products=(action.payload.data);
-            
+            state.searchProducts=(action.payload.data);
+            console.log('thios is form slice');
+            console.log(state.searchProducts);
       
           },
           [searchResults.rejected]: (state, action) => {
@@ -53,5 +60,5 @@ const formSlice = createSlice({
     });
 
 
-export const {setSearchText,setsearchResults} = formSlice.actions;
+export const {setSearchText,setsearchResults,setFilter} = formSlice.actions;
 export default formSlice.reducer;

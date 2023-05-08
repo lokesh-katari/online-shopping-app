@@ -1,24 +1,30 @@
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 import ContentLoader from "react-content-loader";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link ,useSearchParams,useNavigate } from "react-router-dom";
+import Slider from '@mui/material/Slider';
 
 const { fetchProducts } = require("../features/Products/Product");
+const {searchResults} = require("../features/Form/FormSlice");
 
-const Products = () => {
+const FilteredProducts = () => {
   const navigate= useNavigate();
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products.products);
+  const products = useSelector((state) => state.formslice.searchProducts);
+  const [value, setValue] = useState([0, 100]);
   const loading = useSelector((state) => state.products.loading);
   const error = useSelector((state) => state.products.error);
-  const [searchParams] = useSearchParams();
-  const keyword = searchParams.get('keyword');
+  const keyword = useSelector((state)=>state.formslice.searchText)
+  
+  // const [searchParams] = useSearchParams();
+  // const keyword = searchParams.get('keyword');
   useEffect(() => {
     if(keyword){
-      dispatch(fetchProducts(keyword));
-      navigate(`/products?keyword=${keyword}`);
+      dispatch(searchResults(keyword));
+      // console.log(`this is keyword dispatched ${keyword}`)
+      dispatch(searchResults(keyword));
     }
     else{
       dispatch(fetchProducts())
@@ -34,6 +40,12 @@ const Products = () => {
       </>
     );
   }
+  function valuetext(value) {
+    return `${value}`;
+  }
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   // if (loading) {
   //   return (
   //     <>
@@ -46,17 +58,27 @@ const Products = () => {
 
   return (
  <>
- 
  { loading ?(
-  
-  <ContentLoader/>
-  ):
-  <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900">
-  <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+   
+   <ContentLoader/>
+   ):
+   <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900">
+    <div className="py-12 w-2/6 px-5
+    ">
+      
+    <Slider 
+        getAriaLabel={() => 'Temperature range'}
+        value={value}
+        onChange={handleChange}
+        valueLabelDisplay="on"
+        getAriaValueText={valuetext}
+        max={1000}
+      />
+      </div>  <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
     {/* Head */}
     <div className="flex items-center justify-center lg:justify-between">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">
-        Electronics &amp; Personal Computing
+    Search Results   ({products.length})
       </h2>
 
       <div className="hidden lg:flex">
@@ -126,7 +148,7 @@ const Products = () => {
               </p>
              { console.log()}
               <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">
-                <Link to={window.location.pathname === '/products' ?`${product._id}`:`products/${product._id}`} title="">
+                <Link to={window.location.pathname === '/products/search' ?`${product._id}`:`/products/${product._id}`} title="">
                   {product.name}
                 </Link>
               </h3>
@@ -150,7 +172,7 @@ const Products = () => {
             </div>
           </div>
           <div className="">
-            <button
+            <button  
               type="button"
               className="flex items-center justify-center w-full px-4 py-2.5 text-sm font-bold text-white transition-all duration-200 bg-indigo-600"
             >
@@ -206,4 +228,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default FilteredProducts;

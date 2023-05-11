@@ -10,34 +10,48 @@ const initialState = {
         minPrice:'',
         maxPrice:''
     },
-    category:''
-  };
+    category:'',
+    Cpage:1 ,
+    totalProductsCount:0
+   };
   export const searchResults = createAsyncThunk(
     'products/search',
-    async (keyword) => {
-      const {data} = await axios.get(`http://localhost:5000/api/v1/products?keyword=${keyword}`)
+    async ({keyword = "", Cpage = "1", price = [0, 25000], category, ratings = 0}) => {
+      let url
+      if (category){
+          url = `http://localhost:5000/api/v1/products?keyword=${keyword}&minPrice=${price[0]}&maxPrice=${price[1]}&category=${category}&page=${Cpage}&ratings=${ratings}`
+      }
+      else{
+        url=`http://localhost:5000/api/v1/products?keyword=${keyword}&minPrice=${price[0]}&maxPrice=${price[1]}&page=${(Cpage)}`;
+        console.log(url)
+        console.log((Cpage));
+      }
+      const {data} = await axios.get(url)
+      console.log(data);
      ;
-     
-     return data;
+       
+     return data
    } 
   );
 
 const formSlice = createSlice({
-    name:'formslice',
+    name:'formslice',  
     initialState,
     reducers:{
         setSearchText:(state,action)=>{
             state.searchText =action.payload;
             console.log(state.searchText);
         },
-        setsearchResults:(state,action)=>{
-            state.searchResults  =action.payload.data;
-           
-            console.log(state.searchResults);
+        resetSearchText:(state,action)=>{
+          state.searchText =action.payload;
         },
         setFilter:(state,action)=>{
             state.filter.minPrice = action.payload.minPrice;
             state.filter.maxPrice = action.payload.maxPrice;
+        },
+        setPageNo:(state,action)=>{
+
+          state.Cpage=action.payload
         }
     },
     extraReducers:{
@@ -48,9 +62,8 @@ const formSlice = createSlice({
           [searchResults.fulfilled]: (state, action) => {
             state.loading = false;
             state.searchProducts=(action.payload.data);
-            console.log('thios is form slice');
-            console.log(state.searchProducts);
-      
+            state.totalProductsCount =action.payload.totalProductsCount
+          
           },
           [searchResults.rejected]: (state, action) => {
             state.loading = false;
@@ -60,5 +73,5 @@ const formSlice = createSlice({
     });
 
 
-export const {setSearchText,setsearchResults,setFilter} = formSlice.actions;
+export const {setSearchText,setFilter,Cpage,resetSearchText} = formSlice.actions;
 export default formSlice.reducer;

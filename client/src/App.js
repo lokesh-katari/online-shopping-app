@@ -8,6 +8,8 @@ import ErrorPage from './components/ErrorPage';
 import ProductDetails from './components/ProductDetails';
 import Products from './components/Products';
 import FilteredProducts from './components/FilteredProducts';
+import Login from './components/Users/Login';
+import Register from './components/Users/Register';
 function App() {
   return (
  <>
@@ -16,6 +18,8 @@ function App() {
           <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/products' element={<Products/>}/>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/register' element={<Register/>}/>
             <Route path='*' element={<ErrorPage/>}/>
             <Route path='/products/:id' element={<ProductDetails/>}/>
             <Route path='/products/search/:id' element={<ProductDetails/>}/>

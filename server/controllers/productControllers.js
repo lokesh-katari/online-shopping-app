@@ -22,17 +22,20 @@ exports.createProduct = catchAsyncError(async (req, res) => {
 
 exports.Getallproducts = async (req, res) => {
   let page = Number(req.query.page) || 1;
-  let limit = Number(req.query.limit);
+  let limit = Number(req.query.limit)||5;
 
   let skip = (page - 1) * limit;
 
   
-  const { keyword, category, minPrice, maxPrice } = req.query;
+  const { keyword, category, minPrice, maxPrice,ratings } = req.query;
 
     // Define a filter object based on the query parameters
     const filter = {};
     if (keyword) {
       filter.name = { $regex: keyword, $options: "i" };
+    }
+    if (ratings){
+      filter.ratings = {$gte:ratings};
     }
     if (category) {
       filter.category = category;
@@ -41,13 +44,15 @@ exports.Getallproducts = async (req, res) => {
       filter.price = { $gte: minPrice };
     }
     if (maxPrice) {
-      if (!filter.price) {
+      if (!filter.price) { 
         filter.price = {};
       }
       filter.price.$lte = maxPrice;
     }
-
+    
     // Query the database with the filter object
+  // let totalFilteredCount =await Product.countDocuments();//returns all documents total
+    let totalFilteredCount =await Product.find(filter) //works well for getting the no.of filtered products
     let data = await Product.find(filter).skip(skip).limit(limit);
 
   // Apply search and filter functionalities using the functions
@@ -56,7 +61,7 @@ exports.Getallproducts = async (req, res) => {
   // const allProducts = query;
   res
     .status(200)
-    .json({ success: "true", data, hits: data.length });
+    .json({ success: "true", data, hits: data.length ,totalProductsCount:totalFilteredCount.length});
 };
 exports.GetproductDetails = catchAsyncError(async (req, res, next) => {
   const productDetails = await Product.findById(req.params.id);

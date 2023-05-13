@@ -1,37 +1,53 @@
-import React,{useState} from 'react'
-import { ArrowRight } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { ArrowRight } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { LoginUser } from "../../features/User/UserSlice";
 
 export function Login() {
-  const [Email, setEmail] = useState('')
-  const [password, setpassword] = useState('')
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [Email, setEmail] = useState("");
+  const [password, setpassword] = useState("");
+  const isLoggedIn = useSelector((state) => state.userSlice.loggedIn);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(LoginUser({ Email, password }));
+    console.log(isLoggedIn);
+  };
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  }, [dispatch, isLoggedIn, navigate]);
 
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 h-screen  sm:py-16 lg:px-8 lg:py-24">
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
-          <div className="mb-2 flex justify-center">
-          {/* logo here */}
-          </div>
+          <div className="mb-2 flex justify-center">{/* logo here */}</div>
           <h2 className="text-center text-2xl font-bold leading-tight text-black">
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 ">
-            Don&apos;t have an account?{' '}
-           <Link  
+            Don&apos;t have an account?{" "}
+            <Link
               to="/register"
               title=""
               className="font-semibold text-black transition-all duration-200 hover:underline"
             >
               Create an account
-           </Link>
+            </Link>
           </p>
-          <form action="#" method="POST" className="mt-8">
+          <form method="POST" className="mt-8">
             <div className="space-y-5">
               <div>
-                <label htmlFor="" className="text-base font-medium text-gray-900">
-                  {' '}
-                  Email address{' '}
+                <label
+                  htmlFor=""
+                  className="text-base font-medium text-gray-900"
+                >
+                  {" "}
+                  Email address{" "}
                 </label>
                 <div className="mt-2">
                   <input
@@ -40,21 +56,29 @@ export function Login() {
                     placeholder="Email"
                     id="Email"
                     value={Email}
-                    name='Email'
-                    onChange={(e)=>setEmail(e.target.value)}
+                    name="Email"
+                    required
+                    onChange={(e) => setEmail(e.target.value)}
                   ></input>
                 </div>
               </div>
               <div>
                 <div className="flex items-center justify-between">
-                  <label htmlFor="" className="text-base font-medium text-gray-900">
-                    {' '}
-                    Password{' '}
+                  <label
+                    htmlFor=""
+                    className="text-base font-medium text-gray-900"
+                  >
+                    {" "}
+                    Password{" "}
                   </label>
-                 <Link   to="#" title="" className="text-sm font-semibold text-black hover:underline">
-                    {' '}
-                    Forgot password?{' '}
-                 </Link>
+                  <Link
+                    to="/"
+                    title=""
+                    className="text-sm font-semibold text-black hover:underline"
+                  >
+                    {" "}
+                    Forgot password?{" "}
+                  </Link>
                 </div>
                 <div className="mt-2">
                   <input
@@ -63,17 +87,20 @@ export function Login() {
                     placeholder="Password"
                     id="password"
                     value={password}
-                    name='password'
-                    onChange={(e)=>setpassword(e.target.value)}
+                    name="password"
+                    onChange={(e) => setpassword(e.target.value)}
+                    required
                   ></input>
                 </div>
               </div>
               <div>
                 <button
+                  onClick={handleSubmit}
                   type="button"
                   className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                 >
-                  Get started<Link  rrowRight className="ml-2" size={16} />
+                  Get started
+                  <ArrowRight className="ml-2" size={16} />
                 </button>
               </div>
             </div>
@@ -95,13 +122,11 @@ export function Login() {
               </span>
               Sign in with Google
             </button>
-          
           </div>
         </div>
       </div>
     </section>
-  )
- 
+  );
 }
 
-export default Login
+export default Login;

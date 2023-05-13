@@ -2,15 +2,47 @@ import React from 'react'
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import {useState,useEfffect} from 'react'
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import { useDispatch ,useSelector} from 'react-redux'
+import { userRegister } from '../../features/User/UserSlice'
+import { useNavigate } from 'react-router-dom'
+import AlertComponent from '../AlertComponent';
+import {resetShowAlert} from '../../features/User/UserSlice'
+
 
 export function Register() {
+  
+  const isRegistered = useSelector((state)=>state.userSlice.isRegistered)
+  const showAlert = useSelector((state)=>state.userSlice.showAlert)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [name, setname] = useState('')
   const [Email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [password, setpassword] = useState('')
+
+  const handleSubmit =(e)=>{
+    e.preventDefault();
+    dispatch(userRegister({Email,name,phone,password}))
+    console.log(isRegistered);
+    if(isRegistered){
+      navigate('/login');
+    }
+    dispatch(resetShowAlert(false))
+  }
   return (
     <section>
+       {/* <Alert severity="warning">
+        <AlertTitle>Warning</AlertTitle>
+        This is a warning alert — <strong>check it out!</strong>
+      </Alert> */}
+     
+   
+      <AlertComponent alert={showAlert} />
+     
       <div className="flex items-center justify-center px-4 py-16 h-screen sm:px-6 sm:py-16 lg:px-8 lg:py-24">
+
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
           <div className="mb-2 flex justify-center">
           logo here
@@ -42,6 +74,7 @@ export function Register() {
                     placeholder="Full Name"
                     id="name"
                     value={name}
+                    required
                     name='name'
                     onChange={(e)=>setname(e.target.value)}
                   ></input>
@@ -60,6 +93,7 @@ export function Register() {
                     id="Email"
                     value={Email}
                     name='Email'
+                    required
                     onChange={(e)=>setEmail(e.target.value)}
                   ></input>
                 </div>
@@ -76,6 +110,7 @@ export function Register() {
                     placeholder="phone number"
                     id="phone"
                     value={phone}
+                    required
                     name='phone'
                     onChange={(e)=>setPhone(e.target.value)}
                   ></input>
@@ -95,6 +130,7 @@ export function Register() {
                     placeholder="Password"
                     id="password"
                     value={password}
+                    required
                     name='password'
                     onChange={(e)=>setpassword(e.target.value)}
                   ></input>
@@ -102,6 +138,7 @@ export function Register() {
               </div>
               <div>
                 <button
+                onClick={handleSubmit}
                   type="button"
                   className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                 >

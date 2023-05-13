@@ -3,7 +3,7 @@ import React from "react";
 export const Footer = () => {
   return (
 
-<footer className=" mx-auto px-10 md:px-7 py-10 ">
+<footer className=" mx-auto px-10 md:px-7 py-10 absolute ">
       <div className="flex items-center space-x-6">
         <div>
         <span>

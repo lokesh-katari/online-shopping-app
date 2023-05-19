@@ -1,9 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchText } from "../features/Form/FormSlice";
-import { LogoutUser } from "../features/User/UserSlice";
+
+import Avatar from '@mui/material/Avatar';
 export const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -11,12 +12,15 @@ export const Navbar = () => {
   const [searchText, setsearchText] = useState("");
 
   const isLoggedIn = useSelector((state) => state.userSlice.loggedIn);
-
+  const url = useSelector((state) => state.userSlice.profileUrl);
+  const name= useSelector((state) => state.userSlice.name);
+  console.log(name);
+  // useEffect(() => {
+  //  dispatch(UserDetails())
+  // }, [])
+  
   console.log(`this is from navbar${isLoggedIn}`);
-  const Logout = (e) => {
-    e.preventDefault();
-    dispatch(LogoutUser());
-  };
+ 
 
   const submitSearch = (event) => {
     event.preventDefault();
@@ -130,7 +134,12 @@ export const Navbar = () => {
           </li>
           {isLoggedIn ? (
             <>
-              <li className="mr-2">
+            <Link to={'/profile'}>
+            <div className="ml-4">
+            <Avatar alt={name} src={url} />
+            </div>
+            </Link>
+              {/* <li className="mr-2">
                 <div className="mx-2">
                   <Link
                     onClick={Logout}
@@ -140,7 +149,7 @@ export const Navbar = () => {
                     log out
                   </Link>
                 </div>
-              </li>
+              </li> */}
             </>
           ) : (
             <>

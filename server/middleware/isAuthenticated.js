@@ -5,7 +5,8 @@ const ErrorHandler =require("../Utils/ErrorHandler")
 const isAuthenticated=catchAsyncErrors(async(req,res,next)=>{
     console.log("from isAuthenticateefd.js");//debugging purpose
    
-    const {token} =req.cookies;
+    const token =req.cookies.token;
+    console.log(token);
     
     if(!token){
         return next(new ErrorHandler("please login to access this resource"));

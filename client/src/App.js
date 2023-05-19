@@ -10,7 +10,12 @@ import Products from './components/Products';
 import FilteredProducts from './components/FilteredProducts';
 import Login from './components/Users/Login';
 import Register from './components/Users/Register';
+import UserProfile from './components/Users/UserProfile';
+
+
 function App() {
+
+ 
   return (
  <>
  <BrowserRouter>
@@ -19,6 +24,7 @@ function App() {
             <Route path='/' element={<Home/>}/>
             <Route path='/products' element={<Products/>}/>
             <Route path='/login' element={<Login/>}/>
+            <Route path='/profile' element={<UserProfile/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='*' element={<ErrorPage/>}/>
             <Route path='/products/:id' element={<ProductDetails/>}/>

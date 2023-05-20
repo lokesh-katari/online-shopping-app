@@ -11,6 +11,8 @@ import FilteredProducts from './components/FilteredProducts';
 import Login from './components/Users/Login';
 import Register from './components/Users/Register';
 import UserProfile from './components/Users/UserProfile';
+import ResetPassword from './components/Users/ResetPassword';
+
 
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
             <Route path='/products/:id' element={<ProductDetails/>}/>
             <Route path='/products/search/:id' element={<ProductDetails/>}/>
             <Route path='/products/search' element={<FilteredProducts/>}/>
+            <Route path='/reset/password/:token' element={<ResetPassword/>}/>
         
            
           </Routes>

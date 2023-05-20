@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginUser } from "../../features/User/UserSlice";
+import ForgotPassword from "./ForgotPassword";
 
 export function Login() {
   const navigate = useNavigate();
@@ -71,14 +72,11 @@ export function Login() {
                     {" "}
                     Password{" "}
                   </label>
-                  <Link
-                    to="/"
-                    title=""
+                  <div
+                  
                     className="text-sm font-semibold text-black hover:underline"
-                  >
-                    {" "}
-                    Forgot password?{" "}
-                  </Link>
+                  ><ForgotPassword/>
+                  </div>
                 </div>
                 <div className="mt-2">
                   <input

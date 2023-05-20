@@ -10,6 +10,7 @@ const sendToken=(user,statuscode,res)=>{//creating token and saving in cookie
     };
     res.status(statuscode).cookie("token",token,options).json({
 success:true,
+message:"password changed succesfully",
 user,
 token
     });

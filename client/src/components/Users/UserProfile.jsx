@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import { LogoutUser, UserDetails, updateUser } from "../../features/User/UserSlice";
+import UpdatePassword from "./UpdatePassword";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const UserProfile = () => {
   const [editEmail, seteditEmail] = useState("");
   const [editPhone, seteditPhone] = useState("");
   const [disabledtext, setDisabledtext] = useState("text-gray-400");
-  const loading = useSelector((state) => state.formslice.loading);
+  const loading = useSelector((state) => state.userSlice.loading);
 
   const editUserProfile = (e) => {
     //submitting user data edited
@@ -167,7 +168,8 @@ const UserProfile = () => {
                     ></input>
                   </div>
                 </div>
-                <div className="flex items-center justify-center mt-10">
+                <div className="flex flex-col items-center justify-center mt-10">
+                  <UpdatePassword/>
                   <button
                     className="text-2xl bg-blue-500 p-3 text-white mt-10 w-2/6 rounded-lg"
                     type="submit"

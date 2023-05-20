@@ -10,15 +10,43 @@ const initialState = {
   isRegistered:false,
   showAlert:false,
   loggedIn: false,
-  loading: false,
+  loading: true,
   error: null,
-  isUpdated:false
+  isUpdated:false ,
+  message:""
 };
 export const LoginUser = createAsyncThunk("login/user", async ({Email,password}) => {
   const { data } = await axios.post(`/api/v1/login`, {Email,password},{
     headers: {
       "Content-Type": "application/json",
       withCredentials: true
+    },
+  });
+  return data;
+});
+export const resetpassword = createAsyncThunk("reset/password", async ({token,password,confirmPassword}) => {
+  const { data } = await axios.put(`http://localhost:5000/api/v1/password/reset/${token}`, {token,password,confirmPassword},{
+    headers: {
+      "Content-Type": "application/json",
+      withCredentials: true
+    },
+  });
+  return data;
+});
+export const updatepassword = createAsyncThunk("updatePassword/user", async ({oldPassword,newPassword,confirmPassword}) => {
+  const { data } = await axios.put(`/api/v1/update/password`, {oldPassword,newPassword,confirmPassword},{
+    headers: {
+      "Content-Type": "application/json",
+ 
+    },
+  });
+  return data;
+});
+export const forgotpassword = createAsyncThunk("forgotpassword/user", async ({Email}) => {
+  const { data } = await axios.post(`/api/v1/password/forgot`, {Email},{
+    headers: {
+      "Content-Type": "application/json",
+ 
     },
   });
   return data;
@@ -87,6 +115,58 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.error.message;
       state.loggedIn=false
+    },
+    [resetpassword.pending]: (state, action) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [resetpassword.fulfilled]: (state, action) => {
+   
+      state.loading = false;
+     
+      state.message=action.payload.message;
+      state.userData=action.payload.user;
+      state.loggedIn=true;
+
+    },
+    [resetpassword.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+      state.loggedIn=false
+    },
+    [updatepassword.pending]: (state, action) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [updatepassword.fulfilled]: (state, action) => {
+      state.loggedIn=true
+      state.loading = false;
+
+      state.isUpdated=true;
+
+    },
+    [updatepassword.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+ 
+    },
+    
+    [forgotpassword.pending]: (state, action) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [forgotpassword.fulfilled]: (state, action) => {
+      
+      state.loading = false;
+
+      state.message = action.payload.message
+
+    },
+    [forgotpassword.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+      state.message="please check the entered email"
+ 
     },
     [UserDetails.pending]: (state, action) => {
       state.loading = true;

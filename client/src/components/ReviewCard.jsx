@@ -8,8 +8,8 @@ const ReviewCard = (props) => {
   const reviews = props.reviews;
   const loading = props.loading;
   const error = props.loading;
-  console.log(loading
-    );
+  
+    
   return (
     <>
       {loading ?(

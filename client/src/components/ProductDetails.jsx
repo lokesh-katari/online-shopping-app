@@ -1,23 +1,44 @@
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 import ContentLoader from "react-content-loader";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getProductDetails } from "../features/Products/Product";
+
+
 import { useParams } from "react-router-dom";
 import ReviewCard from "./ReviewCard";
+import { addToCart } from "../features/Cart/cart";
+const ProductDetails = () => {
 
-const ProductDetails = ({ match }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.products.loading);
   const error = useSelector((state) => state.products.error);
   const productDetails = useSelector((state) => state.products.productDetails);
- 
-  // console.log(productDetails);
+  const [value, setvalue] = useState(1);
+
+  const handleaddToCart = () => {
+   
+   dispatch(addToCart(id,value));//since it is a function containing dispatch as a dependencies so we should dispatch the function to calling it
+    console.log("added to cart");
+  };
+  const handleDecrement = () => {
+    if (value <= 1) {
+      setvalue(1);
+    } else {
+      setvalue(value - 1);
+    }
+  };
+  const handleIncrement = () => {
+    if (value >= productDetails.stock) {
+      setvalue(value);
+    } else {
+      setvalue(value + 1);
+    }
+  };
   useEffect(() => {
     dispatch(getProductDetails(id));
-
   }, [dispatch, id]);
 
   return (
@@ -59,37 +80,24 @@ const ProductDetails = ({ match }) => {
                   <p className="leading-relaxed dark:text-gray-300">
                     {productDetails.description}
                   </p>
-                  <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
-                    <div className="flex">
-                      <span className="mr-3 dark:text-gray-300">Color</span>
-                      <button className="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
-                      <button className="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
-                      <button className="border-2 border-gray-300 ml-1 bg-purple-500 rounded-full w-6 h-6 focus:outline-none"></button>
+                  <div className="flex m-6">
+                    <button
+                      className="text-white text-4xl border-solid border-2 border-white p-4"
+                      onClick={handleDecrement}
+                    >
+                      {" "}
+                      -{" "}
+                    </button>
+                    <div className="flex items-center justify-center text-white text-bold p-5">
+                      {value}
                     </div>
-                    <div className="flex items-center ml-auto dark:text-white">
-                      <span className="mr-3">Size</span>
-                      <div className="relative">
-                        <select className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-500 text-base pl-3 pr-10">
-                          <option>SM</option>
-                          <option>M</option>
-                          <option>L</option>
-                          <option>XL</option>
-                        </select>
-                        <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                          <svg
-                            fill="none"
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            className="w-4 h-4"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M6 9l6 6 6-6"></path>
-                          </svg>
-                        </span>
-                      </div>
-                    </div>
+                    <button
+                      className="text-white text-2xl border-solid border-2 border-white p-4"
+                      onClick={handleIncrement}
+                    >
+                      {" "}
+                      +{" "}
+                    </button>
                   </div>
                   <div className="flex">
                     <span className="title-font font-medium text-2xl text-gray-900 dark:text-white">
@@ -101,6 +109,7 @@ const ProductDetails = ({ match }) => {
                           ? "ml-auto rounded-md bg-red-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white cursor-not-allowed opacity-50 "
                           : "ml-auto rounded-md bg-indigo-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white "
                       }
+                      onClick={handleaddToCart}
                     >
                       {productDetails.stock < 1
                         ? "Out of Stock"

@@ -88,6 +88,7 @@ const UserProfile = () => {
               </div>
             </div>
 
+          
             <div className="mx-2 row-span-2 col-span-1">
               <Link
                 onClick={Logout}
@@ -95,6 +96,14 @@ const UserProfile = () => {
                 className="py-2 px-2  text-sm text-gray-900 bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:text-gray-900"
               >
                 log out
+              </Link>
+
+              <Link
+                
+                to={"/orders/cart"}
+                className="py-2 px-2  text-sm text-gray-900 bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:text-gray-900"
+              >
+                Cart
               </Link>
             </div>
             <div className="row-span-3 col-span-2">

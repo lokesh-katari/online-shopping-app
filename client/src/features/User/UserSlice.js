@@ -109,6 +109,7 @@ const userSlice = createSlice({
       state.userData = action.payload.user;
       state.name = action.payload.user.name;
       state.profileUrl=action.payload.user.avator.url;
+      state.showAlert=true;
 
     },
     [LoginUser.rejected]: (state, action) => {

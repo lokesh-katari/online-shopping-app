@@ -4,6 +4,8 @@ import { useSelector,useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { removeCartItem,setTotalPrice} from "../../features/Cart/cart";
 import { useEffect } from "react";
+	
+import { ToastContainer,toast } from "react-toastify";
 const Cart = () => {
   const dispatch = useDispatch();
   let product = useSelector((state) => state.cart.cartItems);
@@ -11,6 +13,8 @@ const Cart = () => {
     dispatch(removeCartItem(id)); 
     console.log(id);;
     console.log("item removed ");
+    toast.success("Item REmoved")
+    
   }
   const [products, setproducts] = useState(product);
   // const totalPrice=products.map((item)=>item.price*item.qty)
@@ -23,11 +27,16 @@ const Cart = () => {
     });
     return sum;
   }
-  const totalPrice =totalProducts(products)
+  let totalPrice=0
+  if(product){
+       totalPrice =totalProducts(products)
+    }
   
   useEffect(() => {
   
-    setproducts(JSON.parse(localStorage.getItem("cartItems")))
+    if(product.length>0){
+      setproducts(JSON.parse(localStorage.getItem("cartItems")))
+    }
     dispatch(setTotalPrice(totalPrice))
    
   }, [product,dispatch,totalPrice])
@@ -40,7 +49,19 @@ const Cart = () => {
      <Link to={"/"}> <button className="w-36 rounded-xl h-10 bg-blue-800 text-white text-2xl mx-auto block  mt-5">Shop</button></Link>
 </div>
      </>:<>
-     <div className="w-3/6 m-auto">
+     <ToastContainer
+        position='top-right'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='light'
+      />
+     <div className="w-3/6 m-auto h-screen">
      <div className=" mt-32">
      <div >
         <div className="flex justify-center items-center flex-col ">  
@@ -93,12 +114,12 @@ const Cart = () => {
           Shipping and taxes calculated at checkout.
         </p>
         <div className="mt-6">
-          <a
-            href="/"
+          <Link
+            to="/orders/cart/checkout"
             className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
           >
             Checkout
-          </a>
+          </Link>
         </div>
         <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
           <p>

@@ -13,6 +13,7 @@ import Register from './components/Users/Register';
 import UserProfile from './components/Users/UserProfile';
 import ResetPassword from './components/Users/ResetPassword';
 import Cart from "./components/Cart/Cart";
+import Checkout from './components/Cart/Checkout';
 
 
 
@@ -34,6 +35,7 @@ function App() {
             <Route path='/products/search/:id' element={<ProductDetails/>}/>
             <Route path='/products/search' element={<FilteredProducts/>}/>
             <Route path='/orders/cart' element={<Cart/>}/>
+            <Route path='/orders/cart/checkout' element={<Checkout/>}/>
             <Route path='/reset/password/:token' element={<ResetPassword/>}/>
         
            

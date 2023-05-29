@@ -1,18 +1,19 @@
 import React from 'react'
 import Products from './Products'
-import Carasol from './Carasol'
+import CarasolHome from './Carasol'
 import MetaData from './MetaData';
-const images = [
-  'https://via.placeholder.com/500x250.png?text=Image+1',
-  'https://via.placeholder.com/500x250.png?text=Image+2',
-  'https://via.placeholder.com/500x250.png?text=Image+3',
-];
+import img1 from "../Carousolimg/img1.jpg"
+import img2 from "../Carousolimg/img2.jpg"
+import img3 from "../Carousolimg/img3.jpg"
 export default function Home() {
+ const  images=[
+    img1,img2,img3
+  ]
   return (
    <>
    <MetaData title={'online-shopping-app'}/>
  <div className="container flex flex-col">
-   <Carasol images ={images}/>
+   <CarasolHome images ={images} />
    <Products/>
  </div>
    </>

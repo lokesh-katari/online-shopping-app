@@ -19,10 +19,10 @@ const initialState = {
     async ({keyword = "", Cpage = "1", price = [0, 25000], category, ratings = 0}) => {
       let url
       if (category){
-          url = `http://localhost:5000/api/v1/products?keyword=${keyword}&minPrice=${price[0]}&maxPrice=${price[1]}&category=${category}&page=${Cpage}&ratings=${ratings}`
+          url = `http://localhost:5000/api/v1/products?keyword=${keyword}&minPrice=${price[0]}&maxPrice=${price[1]}&category=${category}&page=${Cpage}&ratings=${ratings}&limit=5`
       }
       else{
-        url=`http://localhost:5000/api/v1/products?keyword=${keyword}&minPrice=${price[0]}&maxPrice=${price[1]}&page=${(Cpage)}`;
+        url=`http://localhost:5000/api/v1/products?keyword=${keyword}&minPrice=${price[0]}&maxPrice=${price[1]}&page=${(Cpage)}&limit=5`;
         console.log(url)
         console.log((Cpage));
       }

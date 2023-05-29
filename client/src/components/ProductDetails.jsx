@@ -4,8 +4,8 @@ import ContentLoader from "react-content-loader";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getProductDetails } from "../features/Products/Product";
-
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer,toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import ReviewCard from "./ReviewCard";
 import { addToCart } from "../features/Cart/cart";
@@ -19,7 +19,7 @@ const ProductDetails = () => {
   const [value, setvalue] = useState(1);
 
   const handleaddToCart = () => {
-   
+    toast("Added to Cart",{ position: "bottom-right" });
    dispatch(addToCart(id,value));//since it is a function containing dispatch as a dependencies so we should dispatch the function to calling it
     console.log("added to cart");
   };
@@ -49,6 +49,18 @@ const ProductDetails = () => {
         </>
       ) : (
         <>
+         <ToastContainer
+        position='top-right'
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='dark'
+      />
           <section className="text-gray-600 dark:bg-gray-900 body-font overflow-hidden">
             <div className="container px-5 py-24 mx-auto">
               <div className="lg:w-4/5 mx-auto flex flex-wrap">

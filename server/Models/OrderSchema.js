@@ -6,15 +6,11 @@ const orderSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    city: {
+    doorno: {
       type: String,
       required: true,
     },
-    state: {
-      type: String,
-      required: true,
-    },
-    country: {
+    pincode: {
       type: String,
       required: true,
     }
@@ -37,7 +33,16 @@ const orderSchema = new mongoose.Schema({
             type:mongoose.Schema.ObjectId,
             ref:"Product",
             required:true
+        },
+        qty:{
+          type:Number,
+          default:1
+        },
+        countInStock:{
+          type:Number,
+          required:true
         }
+
     }
   ],
   user:{

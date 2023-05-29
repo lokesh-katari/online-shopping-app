@@ -1,34 +1,23 @@
 // Carousel.js
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import Carousel from "react-material-ui-carousel";
 // import Image from './Image';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 
-function Carousel({ images }) {
+const CarouselHome=({ images })=> {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const goToPreviousImage = () => {
-    const newIndex = currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1;
-    setCurrentImageIndex(newIndex);
-  };
-
-  const goToNextImage = () => {
-    const newIndex = currentImageIndex === images.length - 1 ? 0 : currentImageIndex + 1;
-    setCurrentImageIndex(newIndex);
-  };
-
   return (
-    <div className="relative w-full mx-auto bg-slate-800">
-      <div className="absolute flex items-center justify-center">
-        <ChevronLeftIcon className="h-12 w-12 text-black cursor-pointer" onClick={goToPreviousImage} />
-      </div>
-      <div className="absolute flex items-center justify-center">
-        <ChevronRightIcon className="h-12 w-12 text-black cursor-pointer" onClick={goToNextImage} />
-      </div>
-      <div className='mx-9'>
-      <img alt="imag" src={images[currentImageIndex]} />
-      </div>
-    </div>
+    <>
+      <Carousel>
+        {images.map((img, i) => (
+          <div className="mt-14">
+            <img src={img} alt="" key={i} style={{width:"100vw",height:"60vh"}} />
+          </div>
+        ))}
+      </Carousel>
+    </>
   );
 }
 
-export default Carousel;
+export default CarouselHome;

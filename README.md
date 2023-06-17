@@ -2,11 +2,11 @@
 
 made using MERN stack ,this web application can make u allow to do whatever the functionalities can be done compared to regular e commerce application ,in this project i have used Mongodb as database ,Express framework for sending requests ,Node js as server-side language and Reactjs for frontend i have also used Redux toolkit for state management and tailwind CSS for styling the pages real quick,
 
-#getting started :v:
+# getting started :v:
 
-##setting the project in your local machine
+## setting the project in your local machine
 
-##Requirements:
+## Requirements:
 
 * Node js should be installed in your system
 * MongoDB ,Mongoshell
@@ -30,10 +30,10 @@ npm i
 
 after installing all the dependencies 
 
-###For starting the application
+### For starting the application
 ---
 
-####Backend
+#### Backend
 
 
 open command prompt in the current directory of the project file .Run the below command to start the backend server  
@@ -43,7 +43,7 @@ npm run dev
 and the server should be started at port:5000
 
 ---
-####Frontend
+#### Frontend
 now open the command prompt in the client folder
 .Run the below command to start your react application
 ```bash
@@ -52,8 +52,8 @@ npm start
 and the react application will be started at port:3000
 
 
-#Contributing :o:
+# Contributing :o:
 
 U can also contribute to this poject
 
-##Fork the repo
+## Fork the repo

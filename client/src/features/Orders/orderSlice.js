@@ -15,6 +15,7 @@ const initialState = {
   shippingPrice: 0,
   totalPrice: 0,
   orderStatus: "Processing",
+  myorders:[]
 };
 
 export const createOrder = createAsyncThunk(
@@ -77,7 +78,7 @@ const orderSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    [myOrders.fulfilled]: (state={myorders:[],loading:false}, action) => {
+    [myOrders.fulfilled]: (state={loading:false}, action) => {
       state.loading = false;
        state.myorders=action.payload.order
     },

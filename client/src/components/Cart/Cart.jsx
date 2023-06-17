@@ -28,7 +28,7 @@ const Cart = () => {
     return sum;
   }
   let totalPrice=0
-  if(product){
+  if(products){
        totalPrice =totalProducts(products)
     }
   
@@ -36,6 +36,9 @@ const Cart = () => {
   
     if(product.length>0){
       setproducts(JSON.parse(localStorage.getItem("cartItems")))
+    }
+    if(product.length===0){
+      setproducts([])
     }
     dispatch(setTotalPrice(totalPrice))
    

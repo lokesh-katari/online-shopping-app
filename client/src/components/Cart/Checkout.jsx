@@ -49,7 +49,7 @@ const Checkout = () => {
     );
     toast("Order Placed");
     dispatch(setCartItems());
-    navigate('/orders/cart')
+    // navigate('/')
   };
   return (
     <div className="mx-auto w-full max-w-7xl bg-slate-100 pt-20 h-screen">

@@ -98,5 +98,6 @@ export const setShippingAddress = (address) => async (dispatch, getState) => {
 export const setCartItems = (address) => async (dispatch, getState) => {
   dispatch(removeCartAfterOrderPlaced(address));
   localStorage.removeItem("cartItems");
+  // localStorage.setItem("cartItems",[]);
  
 };

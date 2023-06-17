@@ -1,14 +1,14 @@
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 // import ContentLoader from "react-content-loader";
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link,  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Slider from "@mui/material/Slider";
 import Pagination from "@mui/material/Pagination";
-import { setSearchText } from "../features/Form/FormSlice";
+// import { setSearchText } from "../features/Form/FormSlice";
 
 const { fetchProducts } = require("../features/Products/Product");
 const { searchResults } = require("../features/Form/FormSlice");
@@ -22,7 +22,7 @@ const FilteredProducts = () => {
   const [price, setPrice] = useState([0, 25000]);
   const loading = useSelector((state) => state.formslice.loading);
   const error = useSelector((state) => state.formslice.error);
-  let  keyword = useSelector((state) => state.formslice.searchText);
+  let keyword = useSelector((state) => state.formslice.searchText);
   const totalProductsCount = useSelector(
     (state) => state.formslice.totalProductsCount
   );
@@ -32,20 +32,17 @@ const FilteredProducts = () => {
   // const [searchParams] = useSearchParams();
   // const keyword = searchParams.get('keyword');
   useEffect(() => {
-    
     if (keyword) {
       // dispatch(searchResults(keyword));
       // console.log(`this is keyword dispatched ${keyword}`)
       dispatch(searchResults({ keyword, price, Cpage }));
-     
-    
     } else {
       dispatch(fetchProducts());
-    }   
+    }
   }, [dispatch, keyword, navigate, price, Cpage]);
-useEffect(()=>{
-setPage(1)
-},[keyword])
+  useEffect(() => {
+    setPage(1);
+  }, [keyword]);
   if (error) {
     return (
       <>
@@ -76,11 +73,19 @@ setPage(1)
 
   return (
     <>
-     
       {loading ? (
-       <Box sx={{ display: 'flex' ,alignItems:'center',justifyContent:'center' ,height:'100vh' ,width:'100vh', margin: 'auto'}}>
-       <CircularProgress />
-     </Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+            width: "100vh",
+            margin: "auto",
+          }}
+        >
+          <CircularProgress />
+        </Box>
       ) : (
         <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900">
           <div
@@ -130,8 +135,8 @@ setPage(1)
             </div>
             {/* Products */}
             <div className="grid grid-cols-1 gap-4 mt-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 sm:mt-10">
-              {
-                products.length!==0?products.map((product) => (
+              {products.length !== 0 ? (
+                products.map((product) => (
                   <div
                     key={product._id}
                     className="relative overflow-hidden bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-500 rounded-xl group"
@@ -165,7 +170,7 @@ setPage(1)
                           alt={product.imageAlt}
                         />
                       </div>
-  
+
                       <div className="px-6 py-4 flex-1 flex flex-col">
                         <p className="text-xs font-medium tracking-widest text-gray-500 dark:text-gray-300 uppercase">
                           {product.category}
@@ -224,11 +229,14 @@ setPage(1)
                       </button>
                     </div>
                   </div>
-                )):<>
-                
-                <h1 className="text text-7xl text-cyan-500">NO Search Results found</h1>
+                ))
+              ) : (
+                <>
+                  <h1 className="text text-7xl text-cyan-500">
+                    NO Search Results found
+                  </h1>
                 </>
-              }
+              )}
             </div>
             {/* Small Screen View All */}
             <div className="mt-12 text-center lg:hidden">
@@ -255,12 +263,11 @@ setPage(1)
               </Link>
             </div>
             <div className="text text-white flex justify-center items-center py-6  ">
-             
               <Pagination
                 size="large"
                 variant="outlined"
                 color="primary"
-                className=''
+                className=""
                 count={Math.ceil(totalProductsCount / limit)}
                 page={Cpage}
                 onChange={handlePageChange}

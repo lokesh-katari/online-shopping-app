@@ -3,8 +3,20 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchText } from "../features/Form/FormSlice";
+import Badge from "@mui/material/Badge";
+import { styled } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Avatar from "@mui/material/Avatar";
 
-import Avatar from '@mui/material/Avatar';
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: -4,
+    top: 4,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 3px",
+  },
+}));
 export const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -13,14 +25,14 @@ export const Navbar = () => {
 
   const isLoggedIn = useSelector((state) => state.userSlice.loggedIn);
   const url = useSelector((state) => state.userSlice.profileUrl);
-  const name= useSelector((state) => state.userSlice.name);
+  const name = useSelector((state) => state.userSlice.name);
+  const CartNo = useSelector((state)=>state.cart.cartItems)
   console.log(name);
   // useEffect(() => {
   //  dispatch(UserDetails())
   // }, [])
-  
+
   console.log(`this is from navbar${isLoggedIn}`);
- 
 
   const submitSearch = (event) => {
     event.preventDefault();
@@ -134,11 +146,11 @@ export const Navbar = () => {
           </li>
           {isLoggedIn ? (
             <>
-            <Link to={'/profile'}>
-            <div className="ml-4">
-            <Avatar alt={name} src={url} />
-            </div>
-            </Link>
+              <Link to={"/profile"}>
+                <div className="ml-4">
+                  <Avatar alt={name} src={url} />
+                </div>
+              </Link>
               {/* <li className="mr-2">
                 <div className="mx-2">
                   <Link
@@ -148,8 +160,17 @@ export const Navbar = () => {
                   >
                     log out
                   </Link>
-                </div>
+                </div> 
               </li> */}
+              <div className="ml-2">
+                <IconButton aria-label="cart">
+                  <Link to={'/orders/cart'}>
+                  <StyledBadge badgeContent={CartNo.length} color="success">
+                    <ShoppingCartIcon sx={{ color: "white"}} size="large" />
+                  </StyledBadge>
+                  </Link>
+                </IconButton>
+              </div>
             </>
           ) : (
             <>

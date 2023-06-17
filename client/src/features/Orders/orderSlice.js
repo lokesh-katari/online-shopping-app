@@ -48,6 +48,10 @@ export const createOrder = createAsyncThunk(
     return data;
   }
 );
+export const myOrders = createAsyncThunk("order/myorders", async () => {
+  const { data } = await axios.get(`/api/v1/order/myOrders`);
+  return data;
+});
 
 const orderSlice = createSlice({
   name: "orders",
@@ -66,6 +70,18 @@ const orderSlice = createSlice({
       state.orderStatus = "Confirmed";
     },
     [createOrder.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    },
+    [myOrders.pending]: (state, action) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [myOrders.fulfilled]: (state={myorders:[],loading:false}, action) => {
+      state.loading = false;
+       state.myorders=action.payload.order
+    },
+    [myOrders.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.error.message;
     },

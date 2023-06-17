@@ -101,9 +101,17 @@ const UserProfile = () => {
               <Link
                 
                 to={"/orders/cart"}
-                className="py-2 px-2  text-sm text-gray-900 bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:text-gray-900"
+                className="py-2 px-2 ml-6 text-sm text-gray-900 bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:text-gray-900"
               >
                 Cart
+              </Link>
+
+              <Link
+                
+                to={"/myorders"}
+                className="py-2 px-2 ml-6 text-sm text-gray-900 bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:text-gray-900"
+              >
+              My Orders
               </Link>
             </div>
             <div className="row-span-3 col-span-2">

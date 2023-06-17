@@ -40,7 +40,7 @@ const getSingleOrder = catchAsyncError(async (req, res, next) => {
   res.status(200).json({ success: true, order });
 });
 
-//get single order
+//get single user order
 const myOrders = catchAsyncError(async (req, res, next) => {
   const order = await Order.find({ user: req.user._id });
   if (!order) {

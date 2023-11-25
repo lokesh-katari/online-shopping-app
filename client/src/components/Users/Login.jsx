@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginUser } from "../../features/User/UserSlice";
 import ForgotPassword from "./ForgotPassword";
-import {toast,ToastContainer} from 'react-toastify'
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export function Login() {
@@ -13,28 +13,28 @@ export function Login() {
   const [Email, setEmail] = useState("");
   const [password, setpassword] = useState("");
   const isLoggedIn = useSelector((state) => state.userSlice.loggedIn);
-  const isRegistered = useSelector((state)=>state.userSlice.isRegistered)
+  const isRegistered = useSelector((state) => state.userSlice.isRegistered);
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(LoginUser({ Email, password }));
     console.log(isLoggedIn);
-    if(!isLoggedIn){
-      toast.error("Please provide valid credentials")
+    if (!isLoggedIn) {
+      toast.error("Please provide valid credentials");
     }
   };
   useEffect(() => {
     if (isLoggedIn) {
       navigate("/");
     }
-    if(isRegistered){
-      toast.success("user successfully regiostered")
+    if (isRegistered) {
+      toast.success("user successfully registered");
     }
   }, [dispatch, isLoggedIn, navigate]);
 
   return (
     <section>
-       <ToastContainer
-        position='top-right'
+      <ToastContainer
+        position="top-right"
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -43,7 +43,7 @@ export function Login() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme='dark'
+        theme="dark"
       />
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 h-screen  sm:py-16 lg:px-8 lg:py-24">
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
@@ -93,10 +93,8 @@ export function Login() {
                     {" "}
                     Password{" "}
                   </label>
-                  <div
-                  
-                    className="text-sm font-semibold text-black hover:underline"
-                  ><ForgotPassword/>
+                  <div className="text-sm font-semibold text-black hover:underline">
+                    <ForgotPassword />
                   </div>
                 </div>
                 <div className="mt-2">
